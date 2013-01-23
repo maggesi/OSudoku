@@ -1,0 +1,12 @@
+# Compiled OCaml sources.
+######################################################################
+*.annot
+*.cmo
+*.cma
+*.cmi
+*.a
+*.o
+*.cmx
+*.cmxs
+*.cmxa
+sudoku
