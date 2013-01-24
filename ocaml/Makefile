@@ -1,4 +1,4 @@
-all: sudoku sudoku_js sample_js 
+all: sudoku sudoku_js sample_js sudokuworker_js
 #sample2_js
 
 sudoku : sudoku.ml
@@ -16,10 +16,10 @@ sample_js:sample.ml
 	js_of_ocaml sample.byte
 
 
-sample2_js:sample2.ml
+sudokuworker_js:sudokuworker.ml
 	ocamlfind ocamlc -package js_of_ocaml -package js_of_ocaml.syntax \
-		-syntax camlp4o -linkpkg -o sample2.byte sample2.ml
-	js_of_ocaml sample2.byte
+		-syntax camlp4o -linkpkg -o sudokuworker.byte sudokuworker.ml
+	js_of_ocaml -pretty -debuginfo sudokuworker.byte
 
 clean:
 	rm -f *.byte *.js *.cm[io] *~ sudoku
@@ -28,4 +28,4 @@ reallyclean: clean
 	rm -f webtest/*
 
 webtestdir: all
-	cp index.html index_sample.html sample.js sudoku.js webtest/
+	cp index.html index_sample.html index_sudokuworker.html sudokuworker.js sample.js sudoku.js webtest/
