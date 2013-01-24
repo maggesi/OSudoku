@@ -1,4 +1,5 @@
-all: sudoku sudoku_js sample_js sample2_js
+all: sudoku sudoku_js sample_js 
+#sample2_js
 
 sudoku : sudoku.ml
 	ocamlc -o $@ $<
@@ -22,3 +23,9 @@ sample2_js:sample2.ml
 
 clean:
 	rm -f *.byte *.js *.cm[io] *~ sudoku
+
+reallyclean: clean
+	rm -f webtest/*
+
+webtestdir: all
+	cp index.html index_sample.html sample.js sudoku.js webtest/
