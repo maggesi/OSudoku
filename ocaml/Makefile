@@ -2,7 +2,7 @@ all: sudoku sudoku_js sample_js sudokuworker_js
 #sample2_js
 
 sudoku : sudoku.ml
-	ocamlc -o $@ $<
+	ocamlc -unsafe -o $@ $<
 
 sudoku_js:sudoku.ml
 	ocamlfind ocamlc -package js_of_ocaml -package js_of_ocaml.syntax \
