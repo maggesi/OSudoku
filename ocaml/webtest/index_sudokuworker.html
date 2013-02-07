@@ -25,13 +25,27 @@ var init = function() {
   rcvdBox.innerHTML=rcvdBox.innerHTML+"<br/> receiving: <pre>"+e.data+"</pre>";
  }, false);
 
+ worker.addEventListener('error', function(a) {
+  console.log(a.filename);
+  console.log(a.lineno);
+  console.log(a.message);
+  alert("error:" + a.message);
+ }, false);
+
+
 }
 
 var sendToTheWorker = function() {
   var s = textToSend.value;
   console.log("s:" + s);
   sentBox.innerHTML=sentBox.innerHTML + "<br/> sending: <pre>"+ s +"</pre>";  
-  worker.postMessage(s);
+  var o = {};
+  o.command = "puzzle";
+  o.data=s;
+  
+  console.log(o);
+
+  worker.postMessage(o);
 }
 
 
