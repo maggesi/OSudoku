@@ -300,4 +300,6 @@ let read_clues (b : string) =
 
 let solve post_solution s =
   let clues = List.rev (read_clues s) in
-  solve_grid post_solution clues
+  solve_grid post_solution clues;
+  Buffer.clear buf;
+  post_solution buf
