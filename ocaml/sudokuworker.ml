@@ -318,7 +318,8 @@ let post_message =
 
 let eventListner (e : Js.Unsafe.any ) : unit =
   let msg = Js.Unsafe.get (Js.Unsafe.get e "data") "data" in
-  post_message (Js.Unsafe.inject (Js.string (solve (Js.to_string msg))));;
+(*  post_message (Js.Unsafe.inject (Js.string (solve (Js.to_string msg))));; *)
+    post_message (Js.Unsafe.obj [| "data", (Js.Unsafe.inject ( Js.string (solve (Js.to_string msg)))) |]);;
 
 
 

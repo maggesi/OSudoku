@@ -3373,7 +3373,7 @@ function caml_sys_get_config () {
            {_bN_(function(_u__){return _ti_(_u8_,_u__[1],_u__[2]);},_u9_);
             _uA_(_u8_);}
           catch(_u$_){if(_u$_[1]!==_sc_)throw _u$_;}
-          return _va_(_c5_(_rF_).toString());};
+          return _va_({"data":_c5_(_rF_).toString()});};
       _vb_(_n_.toString(),_vc_);
       _aZ_(0);
       return;}}
