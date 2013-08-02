@@ -326,11 +326,11 @@ let add_event_listner =
   let addEventListner = Js.Unsafe.variable "self.addEventListener" in
   fun etype listner ->
     Js.Unsafe.fun_call addEventListner
-      [|Js.Unsafe.inject (Js.string etype);
-	Js.Unsafe.inject listner|];;
+      [| Js.Unsafe.inject (Js.string etype);
+	 Js.Unsafe.inject listner |]
 
 let eventListner (e : Js.Unsafe.any ) : unit =
   let msg = Js.Unsafe.get (Js.Unsafe.get e "data") "data" in
   solve (Js.to_string msg)
 
-add_event_listner "message" eventListner;;
+let () = add_event_listner "message" eventListner
