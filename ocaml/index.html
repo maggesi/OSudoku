@@ -13,7 +13,7 @@ var init = function() {
  rcvdBox = document.getElementById("rcvd");
  statusBox = document.getElementById("status");
  statusBox.innerHTML="starting;"
- worker =  new Worker('sudoku.js');
+ worker =  new Worker('sudokuworker.js');
  if(worker == undefined) 
     alert("well ... i'm unable to start the worker");
  else 
@@ -22,15 +22,30 @@ var init = function() {
  worker.addEventListener('message', function(e) {
   console.log(e);
   console.log(e.data);
-  rcvdBox.innerHTML=rcvdBox.innerHTML + "<br/> receiving: "+e.data;
+  rcvdBox.innerHTML=rcvdBox.innerHTML+"<br/> receiving: <pre>"+e.data+"</pre>";
  }, false);
+
+ worker.addEventListener('error', function(a) {
+  console.log(a.filename);
+  console.log(a.lineno);
+  console.log(a.message);
+  alert("error:" + a.message);
+ }, false);
+
 
 }
 
 var sendToTheWorker = function() {
   var s = textToSend.value;
-  sentBox.innerHTML=sentBox.innerHTML + "<br/> sending: "+ s;  
-  worker.postMessage(s);
+  console.log("s:" + s);
+  sentBox.innerHTML=sentBox.innerHTML + "<br/> sending: <pre>"+ s +"</pre>";  
+  var o = {};
+  o.command = "puzzle";
+  o.data=s;
+  
+  console.log(o);
+
+  worker.postMessage(o);
 }
 
 

@@ -1,4 +1,4 @@
-all: example worker.js sudoku sudoku_js sample_js sudokuworker_js webtestdir
+all: example worker.js
 
 solver.cmi : solver.mli
 	ocamlc -c solver.mli
@@ -28,9 +28,3 @@ worker.js : worker.byte
 
 clean:
 	rm -f *.byte *.js *.cm[io] *~ worker example
-
-reallyclean: clean
-	rm -f webtest/*
-
-webtestdir:
-	cp index.html index_sample.html index_sudokuworker.html sudokuworker.js sample.js sudoku.js webtest/
