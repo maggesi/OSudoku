@@ -1,5 +1,20 @@
 (* Global constants *)
 
+
+(* ------------------------------------------------------------------------- *)
+(* ------------------------------------------------------------------------- *)
+
+let post_message =
+  let postMessage = Js.Unsafe.variable "self.postMessage" in
+  fun (msg : Js.Unsafe.any ) ->
+    Js.Unsafe.fun_call (postMessage) [| msg |]
+
+let post_solution sol =
+  post_message (Js.Unsafe.obj [| "data", (Js.Unsafe.inject ( Js.string sol)) |])
+
+(* ------------------------------------------------------------------------- *)
+(* ------------------------------------------------------------------------- *)
+
 let chars = "123456789"
 
 (* Matrix.
@@ -85,7 +100,8 @@ let print a =
         else '.' in
       Buffer.add_char buf c; Buffer.add_char buf ' '
     done;
-  done
+  done;
+  post_solution (Buffer.contents buf)
 
 let real_blocks = ref blocks
 let real_neighbours = ref neighbours
@@ -295,14 +311,16 @@ let read_clues (b : string) =
 
 let solve s =
   let clues = List.rev (read_clues s) in
-  solve_grid clues;
-  Buffer.contents buf
+  solve_grid clues
 
 (*
 let () =
   let schema = "0 6 0 1 0 0 0 5 0\n0 0 8 3 0 5 6 0 0\n2 0 0 0 0 0 0 0 1\n8 0 0 4 0 7 0 0 6\n0 0 6 0 0 0 3 0 0\n7 0 0 9 0 1 0 0 4\n5 0 0 0 0 0 0 0 2\n0 0 7 0 0 6 9 0 0\n0 4 0 0 0 8 0 0 0\n" in
   print_endline (solve schema)
 *)
+
+(* ------------------------------------------------------------------------- *)
+(* ------------------------------------------------------------------------- *)
 
 let add_event_listner =
   let addEventListner = Js.Unsafe.variable "self.addEventListener" in
@@ -311,34 +329,8 @@ let add_event_listner =
       [|Js.Unsafe.inject (Js.string etype);
 	Js.Unsafe.inject listner|];;
 
-let post_message =
-  let postMessage = Js.Unsafe.variable "self.postMessage" in
-  fun (msg : Js.Unsafe.any ) ->
-    Js.Unsafe.fun_call (postMessage) [| msg |];;
-
 let eventListner (e : Js.Unsafe.any ) : unit =
   let msg = Js.Unsafe.get (Js.Unsafe.get e "data") "data" in
-(*  post_message (Js.Unsafe.inject (Js.string (solve (Js.to_string msg))));; *)
-    post_message (Js.Unsafe.obj [| "data", (Js.Unsafe.inject ( Js.string (solve (Js.to_string msg)))) |]);;
-
-
-
+  solve (Js.to_string msg)
 
 add_event_listner "message" eventListner;;
-
-
-(* request
-   command: ping     
-   command: puzzle
-   data: ....
-*)
-
-(* response
-   kind: pong 
-   kind: solution
-   kind: finished
-   kind: error 
-
-   data: ....
-*)
-
